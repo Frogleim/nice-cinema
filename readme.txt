@@ -1,7 +1,10 @@
 install dependecies with command
 pip3 install -r requirements.txt
 
+connect your PostreSQL database to Nice Cinema Application from settings.py
+do not forget to create database "nice_cinema"
 make migrations
+
 python3 manage.py migrate
 
 Run server
