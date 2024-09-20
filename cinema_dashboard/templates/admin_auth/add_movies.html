@@ -1,0 +1,40 @@
+{% extends 'admin_auth/base.html' %}
+{% block content %}
+
+<div class="container">
+    <h1>Add Movie</h1>
+  
+    <form method="POST" enctype="multipart/form-data" action="{% url 'add_movie' room_id %}">
+      {% csrf_token %}
+  
+              <div class="mb-3">
+                  <label for="name" class="form-label mb-2">Title</label>
+                  <input type="text" class="form-control custom-input-width" id="name" name="name" placeholder="Title">
+              </div>
+              <div class="mb-3">
+                  <label for="poster" class="form-label mb-2">Poster</label>
+                  <input type="file" class="form-control custom-input-width" id="poster" name="poster" placeholder="Seat Rows Count">
+              </div>
+              <div class="mb-3">
+                  <label for="start_time" class="form-label mb-2">Start Time</label>
+                  <input type="time" class="form-control custom-input-width" id="start_time" name="start_time" placeholder="Seat Columns Count">
+              </div>
+
+              <div class="mb-3">
+                  <label for="end_time" class="form-label mb-2">End Time</label>
+                  <input type="time" class="form-control custom-input-width" id="end_time" name="end_time" placeholder="Seat Columns Count">
+              </div>
+
+
+              <div class="mb-3">
+                <label for="date" class="form-label mb-2">Available Date</label>
+                <input type="date" class="form-control custom-input-width" id="date" name="date" required>
+            </div>
+
+
+              <input type="hidden" class="form-control custom-input-width" id="room" name="room" value="{{ room_id }}">
+
+              <button type="submit" class="btn btn-primary">Add Movie</button>
+          </form>
+  </div>
+{% endblock %}

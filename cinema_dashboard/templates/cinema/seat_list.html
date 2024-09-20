@@ -1,0 +1,76 @@
+<h1>Select a seat</h1>
+
+<!-- Seat container styled as a grid -->
+<div class="seat-grid">
+  {% for seat in seats %}
+
+    <div class="seat {% if seat.status == 'unavailable' %}unavailable{% else %}available{% endif %}">
+      <span>Row {{ seat.row }} Seat {{ seat.number }}</span>
+      {% if seat.status == 'available' %}
+        <button onclick="bookSeat({{ seat.id }})">Book</button>
+      {% else %}
+        <span>Unavailable</span>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  function bookSeat(seatId) {
+    // Ensure movie_id is passed correctly from the movie object
+    fetch("{% url 'book-seat' movie.id %}", {
+      method: 'POST',
+      body: JSON.stringify({ seat_id: seatId }),
+      headers: { 'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json' },
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        location.reload();
+      }
+    });
+  }
+</script>
+
+<!-- CSS Styles -->
+<style>
+  .seat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .seat {
+    border: 2px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .seat.available {
+    background-color: #e0f7fa;
+  }
+
+  .seat.unavailable {
+    background-color: #ffebee;
+  }
+
+  .seat button {
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .seat.unavailable span {
+    color: #f44336;
+  }
+</style>

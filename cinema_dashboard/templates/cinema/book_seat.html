@@ -1,0 +1,97 @@
+{% extends 'cinema/base.html' %}
+
+{% block content %}
+
+<style>
+  /* Center all content horizontally and vertically */
+  .container {
+    display: flex;
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+    min-height: 100vh;        /* Full viewport height */
+  }
+
+  /* Flexbox layout for the poster and seat grid */
+  .layout {
+    display: flex;
+    align-items: flex-start;  /* Align items to the top */
+    gap: 20px;                /* Space between poster and seat grid */
+  }
+
+  /* Styling for the movie poster */
+  .poster {
+    width: 300px;             /* Fixed width for the poster */
+  }
+
+  /* Styling for the seat grid */
+  .seat-grid {
+    display: flex;
+    flex-direction: column;   /* Arrange rows vertically */
+    gap: 20px;                /* Space between rows */
+  }
+
+  .seat-row {
+    display: flex;
+    gap: 10px;                /* Space between seats in a row */
+  }
+
+  /* Seat styling */
+  .seat {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .seat.available {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+  }
+
+  .seat.unavailable {
+    background-color: #ffcccc;
+    border: 1px solid #dee2e6;
+    pointer-events: none;
+  }
+
+  .seat:hover {
+    background-color: #007bff;
+    color: white;
+  }
+</style>
+
+<div class="container">
+  <div class="layout">
+    <!-- Movie Poster on the left -->
+    <div class="poster">
+      <div class="card mb-6">
+        <img src="{{ movie.poster.url }}" class="card-img-top" alt="{{ movie.name }}">
+      </div>
+      <p>Book a Seat for {{ movie.name }}</p>
+      <p>Start time: {{ movie.start_time }} | End time: {{ movie.end_time }}</p>
+    </div>
+
+    <!-- Seat Grid on the right -->
+    <div class="seat-grid">
+      <!-- Loop over grouped seats by row -->
+      {% for row, seats in grouped_seats.items %}
+        <div class="seat-row">
+          {% for seat in seats %}
+            <div class="seat {% if seat.status == 'unavailable' %}unavailable{% else %}available{% endif %}">
+              {% if seat.status == 'available' %}
+                <a href="{% url 'select_seat' movie.id seat.id %}" class="text-decoration-none">
+                  Seat {{ seat.row }}-{{ seat.number }}
+                </a>
+              {% else %}
+                Seat {{ seat.row }}-{{ seat.number }} (Unavailable)
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

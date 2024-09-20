@@ -1,0 +1,91 @@
+{% extends 'admin_auth/navbars/base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+{% load static %}
+
+    <div class="container text-center">
+        <br/>
+            {% if movies %}
+        <h1>Movies</h1>
+
+        <div class="row gx-4">
+
+                {% for movie in movies %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card mb-6" style="width: 18rem;">
+                            <img src="{{ movie.poster.url }}"
+                                 class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ movie.name }}</h5>
+                                <h5 class="card-title">Date: {{ movie.date }}</h5>
+                                <h5 class="card-title">Start time: {{ movie.start_time }}</h5>
+                                <h5 class="card-title">End time: {{ movie.end_time }}</h5>
+
+
+                                <div class="row">
+                                    <div class="col">
+                                        <a class="btn btn-primary view-button" data-room-id="{{ movie.id }}">Edit</a>
+                                    </div>
+                                    <div class="col">
+                                        <form method="POST" action="{% url 'remove_movie' movie.id room.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger remove-button">Remove</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+                          <form class="col-15" role="search">
+    <button type="button" class="btn btn-outline-success add-button" onclick="window.location.href='{% url 'add_movie' room.id %}'">Add Movie</button>
+</form>
+            {% else %}
+                <div class="col-12">
+                    <h2 class="text-center" style="margin-top: 50px;">No movies available in {{ room.name }}</h2>
+                </div>
+            <form class="col-15" role="search">
+    <button type="button" class="btn btn-outline-success add-button" onclick="window.location.href='{% url 'add_movie' room.id %}'">Add Movie</button>
+</form>
+
+            {% endif %}
+        </div>
+    </div>
+
+{% else %}
+    <div class="col-md-6 offset-md-3">
+        <h1>Login</h1>
+        <br>
+        <form method="POST" action="{% url 'admin' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <br>
+            <div class="d-flex justify-content-between align-items-center">
+                <button type="submit" class="btn btn-secondary">Login</button>
+                <a href="{% url 'signup' %}" class="btn btn-primary">Create Account</a>
+            </div>
+        </form>
+    </div>
+{% endif %}
+<!-- Add this script tag to include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+
+   $(document).ready(function () {
+    // Add click event handler for view button
+    $(".view-button").click(function () {
+        var roomID = $(this).data("room-id");
+        console.log("Redirecting to:", "/movies/" + roomID + "/");
+        window.location.href = "/movies/" + roomID + "/";
+    });
+});
+
+</script>
+{% endblock %}

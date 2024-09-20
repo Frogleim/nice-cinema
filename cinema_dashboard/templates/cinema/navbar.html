@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+            {% if user.is_authenticated %}
+
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'movie-list' %}">Nice Cinema</a>
+        </li>
+
+
+
+
+
+    </ul>
+
+
+
+
+{% endif %}
+  </div>
+</nav>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  $(".add-button").click(function () {
+  console.log("Redirecting to:", "/add_rooms/");
+  window.location.href = "/add_rooms/";
+});
+</script>

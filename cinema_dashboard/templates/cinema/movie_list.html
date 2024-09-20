@@ -1,0 +1,19 @@
+{% extends 'cinema/base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="row gx-4">
+    {% for movie in all_movies %}
+    <div class="col">
+      <!-- Wrap the card in an <a> tag to make it clickable -->
+      <a href="{% url 'book_seat' movie.id %}" class="text-decoration-none">
+        <div class="card mb-6" style="width: 18rem;">
+          <img src="{{ movie.poster.url }}" class="card-img-top" alt="{{ movie.name }}">
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

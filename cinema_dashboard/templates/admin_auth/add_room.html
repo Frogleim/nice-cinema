@@ -1,0 +1,27 @@
+{% extends 'admin_auth/base.html' %}
+{% block content %}
+
+<div class="container">
+    <h1>Add Room</h1>
+  
+  <form method="POST" action="{% url 'add_room' %}">
+      {% csrf_token %}
+  
+              <div class="mb-3">
+                  <label for="name" class="form-label mb-2">Room Name</label>
+                  <input type="text" class="form-control custom-input-width" id="name" name="name" placeholder="Red Room">
+              </div>
+              <div class="mb-3">
+                  <label for="rows" class="form-label mb-2">Seat Rows</label>
+                  <input type="number" class="form-control custom-input-width" id="rows" name="rows" placeholder="Seat Rows Count">
+              </div>
+              <div class="mb-3">
+                  <label for="columns" class="form-label mb-2">Seat Columns</label>
+                  <input type="number" class="form-control custom-input-width" id="columns" name="columns" placeholder="Seat Columns Count">
+              </div>
+
+
+              <button type="submit" class="btn btn-primary">Add Room</button>
+          </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'admin_auth/base.html' %}
+
+{% block content %}
+<h1>Login</h1>
+    <br>
+<form method="POST" action="{% url 'admin' %}">
+    {% csrf_token %}
+    <form>
+  <div class="mb-3">
+    <input type="text" class="form-control" name="username" placeholder="Username" required>
+  </div>
+  <div class="mb-3">
+    <input type="password" class="form-control" name="password" placeholder="Password" required>
+  </div>
+    <br>
+  <div class="d-flex justify-content-between align-items-center">
+    <button type="submit" class="btn btn-secondary">Login</button>
+{#    <button type="button" class="btn btn-primary">Create Account</button> <!-- Add your additional button here -->#}
+      <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
+
+  </div>
+</form>
+</form>
+{% endblock %}
